@@ -2,12 +2,17 @@
   "name": "qualinor-web",
   "private": true,
   "type": "module",
-  "description": "Sitio web estático de Qualinor Servicios Técnicos (Valencia)",
+  "description": "Sitio web estático de Qualinor Servicios Técnicos (Valencia), generado con build.mjs y empaquetado con Vite.",
   "scripts": {
     "images": "python3 tools/images.py && python3 tools/icons.py",
-    "build": "node build.mjs",
-    "check": "node build.mjs && node tools/check.mjs",
-    "dev": "node build.mjs && python3 -m http.server 4321 --directory dist",
-    "deploy": "npm run check && shipvela publish dist --name qualinor"
+    "build": "vite build",
+    "check": "vite build && node tools/check.mjs",
+    "dev": "node build.mjs && python3 -m http.server 4321 --directory dist"
+  },
+  "devDependencies": {
+    "vite": "6.4.5"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

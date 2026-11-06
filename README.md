@@ -29,9 +29,6 @@ La fuente (Geist, licencia OFL) se sirve desde `/fonts/`: ninguna petición a Go
 
 ## Despliegue en Shipvela
 
-```bash
-shipvela login
-npm run deploy   # check + shipvela publish dist --name qualinor
-```
+Shipvela despliega desde GitHub (`Stelux1/spanski`, rama `main`): cada push a `main` publica el sitio. Shipvela solo acepta proyectos Vite/React/Next, así que `npm run build` ejecuta `vite build` (`vite.config.js`), que compila una entrada mínima (`tools/vite/`) y después llama a `build.mjs`, que regenera `dist/` entero. Configuración en Shipvela: build `npm run build`, salida `dist`.
 
-Publicar **sin** `--spa`: es un sitio multipágina y `--spa` convertiría las URL inexistentes en la portada (soft-404, malo para SEO). Tras el primer despliegue, comprobar que `/servicios/` (sin `index.html`) carga y que una URL inexistente devuelve la página 404.
+Antes de hacer push: `npm run check`. Tras cada despliegue, comprobar que `/servicios/` (sin `index.html`) carga y si una URL inexistente devuelve la página 404 (Shipvela puede servir la portada con 200: soft-404).
