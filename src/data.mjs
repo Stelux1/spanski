@@ -29,6 +29,9 @@ export const SITE = {
   // Pegue aquí la URL del endpoint (p. ej. https://formspree.io/f/xxxxxxx). Vacío = se abre el correo del usuario.
   formEndpoint: process.env.FORM_ENDPOINT || '', // también se puede pasar como variable de entorno al hacer build
   formProvider: '', // nombre del proveedor, para la política de privacidad (p. ej. 'Formspree, Inc.')
+  // Vista previa para el cliente: selector de 3 diseños abajo a la izquierda (?diseno=1|2|3).
+  // Cuando el cliente elija, poner false (y dejar solo el diseño elegido en el CSS).
+  designPreview: true,
 };
 
 export const AREAS = [

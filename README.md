@@ -18,6 +18,16 @@ npm run images   # regenerar WebP, imagen OG y favicons desde src/img-source/
 - `src/ui.mjs` — layout, componentes y schema.org (`GeneralContractor`, `Service`, `BreadcrumbList`, `FAQPage`).
 - `src/assets/` — CSS y JS. `public/` — imágenes y favicons. Salida en `dist/` (desplegar esa carpeta).
 
+## Vista previa de 3 diseños (para el cliente)
+
+Con `SITE.designPreview: true` (en `src/data.mjs`) cada página muestra abajo a la izquierda un selector **Diseño 1 · 2 · 3**:
+
+1. **Actual** — sistema Casa Practica (`site.css`).
+2. **Industrial** — grafito, naranja de señalización, rótulos Barlow Condensed y datos en IBM Plex Mono.
+3. **Corporativo** — en la línea de ASE Consulting: azul marino, oro, Montserrat 800, esquinas rectas.
+
+Los diseños 2 y 3 están en `src/assets/designs.css`, bajo `[data-design="N"]`. Enlace directo a un diseño: `/?diseno=2` (la elección se recuerda al navegar). Cuando el cliente elija: pasar ese bloque a `site.css`, borrar `designs.css` y poner `designPreview: false`.
+
 ## Antes de publicar
 
 1. Completar en `src/data.mjs`: dirección, código postal, NIF, Registro Mercantil, coordenadas y URL del Perfil de Empresa en Google.

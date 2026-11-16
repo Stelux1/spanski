@@ -194,6 +194,21 @@ function languagePicker(L, alternates, locales, cls = '') {
 </details>`;
 }
 
+/* ---------- Selector de diseño (vista previa para el cliente) ---------- */
+const DESIGN_TEXT = {
+  es: { label: 'Diseño', group: 'Elegir diseño', names: ['Diseño 1: actual', 'Diseño 2: industrial', 'Diseño 3: corporativo'] },
+  en: { label: 'Design', group: 'Choose a design', names: ['Design 1: current', 'Design 2: industrial', 'Design 3: corporate'] },
+};
+// Se ejecuta en <head> antes de pintar: ?diseno=2 (también ?dizajn= / ?design=) o la última elección guardada.
+const designBoot = `(function(){var d='1';try{var m=location.search.match(/[?&](?:diseno|dizajn|design)=([123])/);if(m){d=m[1];localStorage.setItem('qualinor-design',d)}else{d=localStorage.getItem('qualinor-design')||'1'}}catch(e){}document.documentElement.setAttribute('data-design',d)})();`;
+function designSwitch(L) {
+  const T = DESIGN_TEXT[L.code] || DESIGN_TEXT.es;
+  return `<div class="design-switch" role="group" aria-label="${esc(T.group)}">
+  <span class="design-switch-label" aria-hidden="true">${esc(T.label)}</span>
+  ${T.names.map((n, i) => `<button type="button" data-design-set="${i + 1}" aria-label="${esc(n)}" title="${esc(n)}">${i + 1}</button>`).join('')}
+</div>`;
+}
+
 /* ---------- Layout ---------- */
 export function layout({ L, locales, path, alternates = {}, title, description, body, schema = [], ogImage = '/img/og-qualinor.jpg', robots = 'index,follow', preload = null, assetVersion = '1', overHero = false }) {
   const t = L.t;
@@ -246,7 +261,7 @@ ${ogAlt}
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
 ${preload ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${preload.srcset}" imagesizes="${preload.sizes}" fetchpriority="high">\n` : ''}<link rel="stylesheet" href="/assets/site.css?v=${assetVersion}">
-<script>document.documentElement.classList.replace('no-js','js')</script>
+${SITE.designPreview ? `<link rel="stylesheet" href="/assets/designs.css?v=${assetVersion}">\n` : ''}<script>document.documentElement.classList.replace('no-js','js')${SITE.designPreview ? `;${designBoot}` : ''}</script>
 <script type="application/ld+json">${JSON.stringify(graph)}</script>
 </head>
 <body>
@@ -322,7 +337,7 @@ ${body}
   </div>
   <p class="footer-large-brand" aria-hidden="true">qualinor</p>
 </footer>
-<script src="/assets/site.js?v=${assetVersion}" defer></script>
+${SITE.designPreview ? designSwitch(L) + '\n' : ''}<script src="/assets/site.js?v=${assetVersion}" defer></script>
 </body>
 </html>
 `;

@@ -12,6 +12,33 @@
     opener.addEventListener('click', () => { window.location.href = '/servicios/'; });
   }
 
+  // Selector de diseño (vista previa para el cliente): 1 actual, 2 industrial, 3 corporativo.
+  // La elección se guarda y se refleja en la URL (?diseno=N) para poder compartir el enlace.
+  const switcher = document.querySelector('.design-switch');
+  if (switcher) {
+    const root = document.documentElement;
+    const THEME = { 1: '#444835', 2: '#16181b', 3: '#09182f' };
+    const sync = () => {
+      const d = root.getAttribute('data-design') || '1';
+      switcher.querySelectorAll('[data-design-set]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.designSet === d)));
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME[d]);
+    };
+    switcher.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-design-set]');
+      if (!b) return;
+      const d = b.dataset.designSet;
+      root.setAttribute('data-design', d);
+      try { localStorage.setItem('qualinor-design', d); } catch {}
+      const url = new URL(window.location.href);
+      url.searchParams.delete('dizajn'); url.searchParams.delete('design');
+      url.searchParams.set('diseno', d);
+      history.replaceState(null, '', url);
+      sync();
+      window.dispatchEvent(new Event('scroll'));
+    });
+    sync();
+  }
+
   // Selector de idioma: se cierra al pulsar fuera o con Escape
   document.querySelectorAll('.language-picker').forEach((d) => {
     document.addEventListener('click', (e) => { if (d.open && !d.contains(e.target)) d.open = false; });

@@ -1,2 +1,6 @@
 Geist (Vercel): SIL Open Font License 1.1 — https://openfontlicense.org
 Descargada de Google Fonts (subconjuntos latin y latin-ext).
+
+Montserrat (Julieta Ulanovsky et al.), Barlow Condensed (Jeremy Tribby) e IBM Plex Mono (IBM):
+SIL Open Font License 1.1 — https://openfontlicense.org
+Obtenidas de Fontsource (subconjuntos latin y latin-ext). Solo se descargan con los diseños 2 y 3 de la vista previa.

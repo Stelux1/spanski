@@ -38,8 +38,11 @@ await mkdir(join(DIST, 'assets'), { recursive: true });
 // Assets con versión por hash de contenido (cache-busting)
 const css = await readFile(join(ROOT, 'src/assets/site.css'), 'utf8');
 const js = await readFile(join(ROOT, 'src/assets/site.js'), 'utf8');
-const assetVersion = createHash('sha1').update(css + js).digest('hex').slice(0, 8);
+// Diseños alternativos 2 y 3 (vista previa para el cliente, SITE.designPreview)
+const designsCss = SITE.designPreview ? await readFile(join(ROOT, 'src/assets/designs.css'), 'utf8') : '';
+const assetVersion = createHash('sha1').update(css + js + designsCss).digest('hex').slice(0, 8);
 await writeFile(join(DIST, 'assets/site.css'), css);
+if (designsCss) await writeFile(join(DIST, 'assets/designs.css'), designsCss);
 await writeFile(join(DIST, 'assets/site.js'), js);
 await cp(join(ROOT, 'public'), DIST, { recursive: true });
 
