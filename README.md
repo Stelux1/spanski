@@ -39,6 +39,12 @@ La fuente (Geist, licencia OFL) se sirve desde `/fonts/`: ninguna petición a Go
 
 ## Despliegue en Shipvela
 
-Shipvela despliega desde GitHub (`Stelux1/spanski`, rama `main`): cada push a `main` publica el sitio. Shipvela solo acepta proyectos Vite/React/Next, así que `npm run build` ejecuta `vite build` (`vite.config.js`), que compila una entrada mínima (`tools/vite/`) y después llama a `build.mjs`, que regenera `dist/` entero. Configuración en Shipvela: build `npm run build`, salida `dist`.
+El sitio se publica con la CLI de Shipvela como **sitio estático** (proyecto de subida `qualinor`, enlazado en `shipvela.json`):
 
-Antes de hacer push: `npm run check`. Tras cada despliegue, comprobar que `/servicios/` (sin `index.html`) carga y si una URL inexistente devuelve la página 404 (Shipvela puede servir la portada con 200: soft-404).
+```sh
+npm run deploy   # = npm run check && shipvela publish dist
+```
+
+No usar el proyecto de GitHub (`Stelux1/spanski`): Shipvela lo detecta como «Vite / single-page app» por el `vite` de `package.json` y reescribe toda ruta `.html`/`.xml` (y sin extensión) a la portada, así que `/servicios/`, `/en/` o `sitemap.xml` muestran la portada con 200. Un proyecto de subida sin `--spa` (framework `static`) sirve cada archivo tal cual y devuelve 404 real en URLs inexistentes. `vite build` se mantiene solo como envoltorio de `build.mjs`.
+
+La CLI necesita sesión (`shipvela login`, Node 22+). Tras cada despliegue, comprobar que `/servicios/` y `/sitemap.xml` devuelven su propio contenido y que una URL inexistente da 404.

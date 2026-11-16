@@ -7,7 +7,8 @@
     "images": "python3 tools/images.py && python3 tools/icons.py",
     "build": "vite build",
     "check": "vite build && node tools/check.mjs",
-    "dev": "node build.mjs && python3 -m http.server 4321 --directory dist"
+    "dev": "node build.mjs && python3 -m http.server 4321 --directory dist",
+    "deploy": "npm run check && shipvela publish dist"
   },
   "devDependencies": {
     "vite": "6.4.5"
